@@ -18,11 +18,11 @@ This project aims to:
 
 ## 🧱 System Architecture & ERD
 
-```mermaid
 graph TD
-  A[Frontend - Next.js + TypeScript] -->|REST API (Axios)| B[Backend - Express.js]
-  B -->|Queries| C[(PostgreSQL - Supabase)]
-  B --> D[Cloudinary - Image Storage]
-  A --> E[Google Maps API - Geolocation]
-  F[Render & Vercel - Deployment] --> A
+  A["Frontend - Next.js and TypeScript"] -->|"REST API (Axios)"| B["Backend - Express.js"]
+  B -->|"Queries"| C["(PostgreSQL - Supabase)"]
+  B --> D["Cloudinary - Image Storage"]
+  A --> E["Google Maps API - Geolocation"]
+  F["Render and Vercel Deployment"] --> A
   F --> B
+
