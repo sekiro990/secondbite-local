@@ -81,5 +81,4 @@ erDiagram
     USERS ||--o{ REVIEWS : writes
     USERS ||--o{ NOTIFICATIONS : receives
     FOOD_LISTINGS ||--o{ REVIEWS : has
-    ```
-
+    
