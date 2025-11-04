@@ -26,7 +26,8 @@ graph TD
   A --> E["Google Maps API - Geolocation"]
   F["Render and Vercel Deployment"] --> A
   F --> B
-
+  
+```mermaid
 erDiagram
     USERS {
         INT id PK
@@ -80,4 +81,5 @@ erDiagram
     USERS ||--o{ REVIEWS : writes
     USERS ||--o{ NOTIFICATIONS : receives
     FOOD_LISTINGS ||--o{ REVIEWS : has
+    
 
