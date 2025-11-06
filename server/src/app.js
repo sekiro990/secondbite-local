@@ -7,6 +7,7 @@ const port = 5050;
 const userRoute = require('./routes/users')
 const authRoute = require('./routes/auth')
 const listingRoute = require('./routes/listings')
+const claimsRoute = require('./routes/claims')
 
 app.use(cors({
     origin: 'https://localhost:3000',
@@ -24,7 +25,7 @@ app.get('/',(req,res)=>{
 app.use('/users',userRoute);
 app.use('/auth',authRoute);
 app.use('/listings',listingRoute);
-
+app.use('/claims',claimsRoute);
 app.listen(port,()=>{
     console.log(`App listening on port ${port}`)
 })
