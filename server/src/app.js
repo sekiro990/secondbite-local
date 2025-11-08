@@ -8,6 +8,7 @@ const userRoute = require('./routes/users')
 const authRoute = require('./routes/auth')
 const listingRoute = require('./routes/listings')
 const claimsRoute = require('./routes/claims')
+const notificationRoute = require('./routes/notification')
 
 app.use(cors({
     origin: 'https://localhost:3000',
@@ -26,6 +27,7 @@ app.use('/users',userRoute);
 app.use('/auth',authRoute);
 app.use('/listings',listingRoute);
 app.use('/claims',claimsRoute);
+app.use('/notifications', notificationRoute);
 app.listen(port,()=>{
     console.log(`App listening on port ${port}`)
 })
