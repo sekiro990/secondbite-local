@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { upload, cloudinary } = require('../config/cloudinary');
 const { Pool } = require('pg');
 const verifyToken = require('../middleware/verifyToken');
 require('dotenv').config();
@@ -11,14 +12,23 @@ const pool = new Pool({
 
 // Creating listing
 
-router.post("/",verifyToken,async(req,res)=>{
+router.post("/",verifyToken, upload.single('photo'), async(req,res)=>{
+    let photo;
     try{
-        const { title, description, category, quantity, expiry_date, image_url, location_lat, location_lng} = req.body;
+        const { title, description, category, quantity, expiry_date, location_lat, location_lng} = req.body;
+        const created_by = req.user.id;
 
     if (!title || !category) {
       return res.status(400).json({ error: 'Title and category are required' });
     }
 
+    let image_url = null;
+    if(req.file){
+        photo = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'secondbite_local',
+    })
+    image_url = photo.secure_url;
+};
     const result = await pool.query(`
             INSERT INTO food_listings
             (title, description, category, quantity, expiry_date, image_url, location_lat, location_lng, created_by)
@@ -30,6 +40,11 @@ router.post("/",verifyToken,async(req,res)=>{
         res.status(201).json(result.rows[0]);
     }catch(err){
         console.error('Error creating listing:', err.message);
+
+        if(photo?.public_id){
+            await cloudinary.uploader.destroy(photo.public_id);
+            console.log('Rolled back Cloudinary upload:', photo.public_id);
+        }
         res.status(500).json({ error:err.message});
     }
 });
