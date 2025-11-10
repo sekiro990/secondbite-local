@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+require("../src/jobs/cleanupJob");
 const app = express();
 const port = 5050;
 
@@ -11,7 +12,7 @@ const claimsRoute = require('./routes/claims')
 const notificationRoute = require('./routes/notification')
 
 app.use(cors({
-    origin: 'https://localhost:3000',
+    origin: 'http://localhost:3000',
     methods: ['GET','POST','PUT','DELETE'],
     credentials: true
 }))

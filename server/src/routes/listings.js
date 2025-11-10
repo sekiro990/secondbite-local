@@ -31,10 +31,10 @@ router.post("/",verifyToken, upload.single('photo'), async(req,res)=>{
 };
     const result = await pool.query(`
             INSERT INTO food_listings
-            (title, description, category, quantity, expiry_date, image_url, location_lat, location_lng, created_by)
-            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            (title, description, category, quantity, expiry_date, image_url, location_lat, location_lng, created_by, cloudinary_public_id)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *`,
-            [title, description, category, quantity, expiry_date, image_url, location_lat, location_lng, req.user.id]
+            [title, description, category, quantity, expiry_date, image_url, location_lat, location_lng, req.user.id, photo.public_id]
         );
 
         res.status(201).json(result.rows[0]);
