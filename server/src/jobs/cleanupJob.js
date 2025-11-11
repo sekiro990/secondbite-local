@@ -1,10 +1,15 @@
 const cron = require("node-cron");
-const pool = require("../config/db");
+const { Pool } = require('pg');
 const cloudinary = require("../config/cloudinary");
+
+const pool = new Pool({
+  connectionString: process.env.DB_URL,
+  ssl: { rejectUnauthorized: false },
+});
 
 // Runs every hour
 cron.schedule("0 * * * *", async() => {
-    console("Running cleanup job")
+    console.log("Running cleanup job");
 
     try{
         // Fetching expired items or those already claimed
@@ -29,7 +34,7 @@ cron.schedule("0 * * * *", async() => {
                 console.log(`Cloudinary image deleted for listing ${item.id}`);
             }
 
-            await pool.query("DELETE id FROM food_listings WHERE id = $1",[item.id]);
+            await pool.query("DELETE FROM food_listings WHERE id = $1",[item.id]);
             console.log(`Listing ${item.id} removed from DB`);
         }catch(err){
             console.error(`Failed to delete listing ${item.id}:`, err.message);
