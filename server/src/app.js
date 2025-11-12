@@ -13,6 +13,8 @@ const notificationRoute = require('./routes/notification')
 const reviewRoute = require('./routes/review')
 const chatRoute = require('./routes/chat')
 const messageRoute = require('./routes/messages')
+const reportRoute = require('./routes/report')
+const blockRoute = require('./routes/block')
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -35,6 +37,8 @@ app.use('/notifications', notificationRoute);
 app.use('/reviews', reviewRoute);
 app.use('/chats', chatRoute);
 app.use('/messages', messageRoute);
+app.use('/reports', reportRoute);
+app.use('/block',blockRoute);
 app.listen(port,()=>{
     console.log(`App listening on port ${port}`)
 })

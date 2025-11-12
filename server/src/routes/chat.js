@@ -68,4 +68,34 @@ router.get("/", verifyToken, async(req, res)=> {
     }
 })
 
+// End chat
+router.put("/end/:id", verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const { rows } = await pool.query(`SELECT * FROM chats WHERE id = $1`, [id]);
+    if (rows.length === 0) return res.status(404).json({ error: "Chat not found" });
+
+    const chat = rows[0];
+    if (chat.user1_id !== userId && chat.user2_id !== userId) {
+      return res.status(403).json({ error: "You’re not part of this chat" });
+    }
+
+    await pool.query(`UPDATE chats SET ended = true WHERE id = $1`, [id]);
+    res.json({ message: "Chat ended successfully" });
+
+    // Emit event (if socket is integrated)
+    // if (req.io) {
+    //   const receiverId = chat.user1_id === userId ? chat.user2_id : chat.user1_id;
+    //   req.io.to(receiverId).emit("chat_ended", { chatId: id });
+    // }
+
+  } catch (err) {
+    console.error("Error ending chat:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 module.exports = router;
