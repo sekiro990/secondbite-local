@@ -11,6 +11,8 @@ const listingRoute = require('./routes/listings')
 const claimsRoute = require('./routes/claims')
 const notificationRoute = require('./routes/notification')
 const reviewRoute = require('./routes/review')
+const chatRoute = require('./routes/chat')
+const messageRoute = require('./routes/messages')
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -31,6 +33,8 @@ app.use('/listings',listingRoute);
 app.use('/claims',claimsRoute);
 app.use('/notifications', notificationRoute);
 app.use('/reviews', reviewRoute);
+app.use('/chats', chatRoute);
+app.use('/messages', messageRoute);
 app.listen(port,()=>{
     console.log(`App listening on port ${port}`)
 })
